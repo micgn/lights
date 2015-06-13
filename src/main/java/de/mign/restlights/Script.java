@@ -13,45 +13,55 @@ import javax.script.ScriptException;
 public class Script {
 
     private StatusSubscriber log;
-    private ScriptEngine engine;
+    private RestJsonClient rest;
+    private LightsCommandThread command;
+    private final ScriptEngine engine;
 
-    public Script(StatusSubscriber subs) {
-	this.log = subs;
-	ScriptEngineManager factory = new ScriptEngineManager();
-	engine = factory.getEngineByName("JavaScript");
+    public Script() {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        engine = factory.getEngineByName("JavaScript");
+    }
+
+    public void setLog(StatusSubscriber l) {
+        log = l;
+    }
+
+    public void setRestJsonClient(RestJsonClient c) {
+        rest = c;
+    }
+
+    public void setCommand(LightsCommandThread c) {
+        command = c;
     }
 
     public void execute() {
-	LightsCommand command = new LightsCommand(log);
-	engine.put("command", command);
-	RestJsonClient rest = new RestJsonClient(log);
-	engine.put("rest", rest);
-	engine.put("logWindow", log);
-	try {
-	    engine.eval(loadScript());
-	    log.say("script run");
 
-	    command.execute();
-	    log.say("lights triggered");
+        engine.put("command", command);
+        engine.put("rest", rest);
+        engine.put("logWindow", log);
+        try {
+            engine.eval(loadScript());
+            log.say("script run");
 
-	} catch (ScriptException e) {
-	    log.error(e.getMessage());
-	} catch (IOException e) {
-	    log.error("file " + Main.getScriptFileParam() + " not found!");
-	}
+        } catch (ScriptException e) {
+            log.error(e.getMessage());
+        } catch (IOException e) {
+            log.error("file loading problem: " + e.getMessage());
+        }
     }
 
     private String loadScript() throws IOException {
-	String fileName = Main.getScriptFileParam();
-	try {
-	    Path path = FileSystems.getDefault().getPath(fileName);
-	    List<String> lines = Files.readAllLines(path);
-	    String s = "";
-	    for (String line : lines)
-		s += line + "\n";
-	    return s;
-	} finally {
+        String fileName = Main.getScriptFileParam();
+        try {
+            Path path = FileSystems.getDefault().getPath(fileName);
+            List<String> lines = Files.readAllLines(path);
+            String s = "";
+            for (String line : lines) {
+                s += line + "\n";
+            }
+            return s;
+        } finally {
 
-	}
+        }
     }
 }
