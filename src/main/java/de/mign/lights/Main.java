@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mign.restlights;
+package de.mign.lights;
 
-import de.mign.restlights.dialog.LightsDialog;
+import de.mign.lights.dialog.LightsDialog;
 
 public class Main {
 

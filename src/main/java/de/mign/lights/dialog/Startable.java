@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mign.restlights.dialog;
+package de.mign.lights.dialog;
 
 public interface Startable {
 

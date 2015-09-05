@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mign.restlights.dialog;
+package de.mign.lights.dialog;
 
 import java.awt.Container;
 import java.awt.GridBagConstraints;
@@ -34,7 +34,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-import de.mign.restlights.StatusSubscriber;
+import de.mign.lights.StatusSubscriber;
 
 @SuppressWarnings("serial")
 public class LightsDialog extends JFrame implements StatusSubscriber {
