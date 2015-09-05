@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2015 Michael Gnatz.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.mign.restlights.dialog;
 
 import java.awt.Container;
@@ -77,6 +92,7 @@ public class LightsDialog extends JFrame implements StatusSubscriber {
         JButton stopBtn = new JButton("Stop");
         stopBtn.setHorizontalAlignment(SwingConstants.LEFT);
         stopBtn.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent arg0) {
                 startable.stop();
             }
@@ -88,13 +104,14 @@ public class LightsDialog extends JFrame implements StatusSubscriber {
         getContentPane().add(stopBtn, gbc_stopBtn);
 
         startBtn.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 startable.start();
             }
         });
     }
 
-    private List<String> logTextList = new ArrayList<String>();
+    private List<String> logTextList = new ArrayList<>();
 
     @Override
     public void say(String s) {
@@ -106,7 +123,7 @@ public class LightsDialog extends JFrame implements StatusSubscriber {
         addToLogText("ERROR", m);
     }
 
-    private DateFormat df = new SimpleDateFormat("HH:mm:ss");
+    private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
 
     private void addToLogText(String type, String s) {
         String line = df.format(new Date());
@@ -119,9 +136,7 @@ public class LightsDialog extends JFrame implements StatusSubscriber {
         logTextList.add(line);
 
         String text = "";
-        for (String str : logTextList) {
-            text += str + "\n";
-        }
+        text = logTextList.stream().map((str) -> str + "\n").reduce(text, String::concat);
         logArea.setText(text);
     }
 

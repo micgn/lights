@@ -5,7 +5,7 @@ function getScore(url) {
 }
 
 
-if (getScore("http://kamk01.campus-m.fiducia.de:8080/job/KKV_TRUNK/api/json") < 100) {
+if (getScore("http://myserver:8080/job/TRUNK/api/json") < 100) {
 
   command.yellow.set(true, 100, 5000);
 
